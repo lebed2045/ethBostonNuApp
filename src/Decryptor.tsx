@@ -9,6 +9,7 @@ export const Decryptor = () => {
     const [privateKey, setPrivateKey] = useState();
     const [encryptedMessage, setEncryptedMessage] = useState();
     const [capsule, setCapsule] = useState();
+    const [fragments, setFragments] = useState();
     const [result, setResult] = useState("");
     const [error, setError] = useState("");
 
@@ -18,7 +19,8 @@ export const Decryptor = () => {
         const data = {
             "recipient": privateKey,
             "data": encryptedMessage,
-            "capsule": capsule
+            "capsule": capsule,
+            "fragments": fragments
         };
         let axiosConfig = {
             headers: {
@@ -55,6 +57,13 @@ export const Decryptor = () => {
             <InputGroup placeholder={"capsule"}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setCapsule(event.target.value)}
                         value={capsule}
+            />
+
+            <br/>
+            <p> fragments </p>
+            <InputGroup placeholder={"fragments"}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setFragments(event.target.value)}
+                        value={fragments}
             />
 
             <br/>

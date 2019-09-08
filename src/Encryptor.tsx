@@ -6,18 +6,18 @@ import Axios from "axios";
 // import { Example, handleStringChange, IExampleProps } from "@blueprintjs/docs-theme";
 
 export const Encryptor = () => {
-    const [publicKey, setPublicKey] = useState("a6bbc4aedd8019a67c9f9e4267c138062aed491070129faf8b108eacd0a6bb9f1d133b446a6904026680e5bfd6041cc95a4f3310ed1743de6157cc4fed796c66");
+    const [alicePubKey, setAlicePubKey] = useState("0x03edd6db086fc9d45194253ad64decc24a699ee1bd498dabdcfdfbb7ecd3e94cfb");
     const [message, setMessage] = useState("message");
-    const [result1, setResult1] = useState("");
-    const [result2, setResult2] = useState("");
+    const [capsule, setCapsule] = useState("");
+    const [cypertext, setCypertext] = useState("");
     const [error, setError] = useState("");
 
     const encryptButtonHandler = async () => {
 
         const url = (process.env.NODE_ENV === 'production' ? "https" : "http") + "://167.99.255.241:5000/encrypt";
         const data = {
-            "recipient": publicKey,
-            "data": message
+            "message": message,
+            "alicePub": alicePubKey
         };
         let axiosConfig = {
             headers: {
@@ -29,8 +29,8 @@ export const Encryptor = () => {
         try {
             const response = await Axios.post(url, data, axiosConfig);
             console.log(response);
-            setResult1(JSON.stringify(response.data.capsule));
-            setResult2(JSON.stringify(response.data.ciphertext));
+            setCapsule(JSON.stringify(response.data.capsule));
+            setCypertext(JSON.stringify(response.data.cypertext));
         } catch (e) {
             setError(e.message);
         }
@@ -40,23 +40,24 @@ export const Encryptor = () => {
     return (
         <div>
             <h2> Encryptor </h2>
-            <p> Recipient </p>
-            <InputGroup placeholder={"publicKey"}
-                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPublicKey(event.target.value)}
-                        value={publicKey}
+            <p> Sender (Alice) </p>
+            <InputGroup placeholder={"pubKey"}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => setAlicePubKey(event.target.value)}
+                        value={alicePubKey}
             />
             <br/>
-            <p> Message </p>
-            <InputGroup placeholder={"enter message"}
+            <p> Message (Bob) </p>
+            <InputGroup placeholder={"message"}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setMessage(event.target.value)}
                         value={message}
             />
             <br/>
+            <br/>
             <Button intent={Intent.PRIMARY}
                     onClick={encryptButtonHandler}>encrypt</Button>
             <br/>
-            {result1 && (<Text ellipsize={true}>{result1}</Text>)}
-            {result2 && (<Text ellipsize={true}>{result2}</Text>)}
+            {capsule && (<Text ellipsize={true}>{capsule}</Text>)}
+            {cypertext && (<Text ellipsize={true}>{cypertext}</Text>)}
             {error && (<p style={{ color: "red" }}> error: {error}</p>)}
         </div>
     );
