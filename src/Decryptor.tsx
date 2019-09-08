@@ -13,7 +13,8 @@ export const Decryptor = () => {
     const [error, setError] = useState("");
 
     const decryptButtonHandler = async () => {
-        const url = "http://167.99.255.241:5000/decrypt";
+
+        const url = (process.env.NODE_ENV === 'production' ? "https" : "http") + "://167.99.255.241:5000/decrypt";
         const data = {
             "recipient": privateKey,
             "data": encryptedMessage,

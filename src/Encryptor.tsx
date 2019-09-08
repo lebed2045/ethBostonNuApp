@@ -14,7 +14,7 @@ export const Encryptor = () => {
 
     const encryptButtonHandler = async () => {
 
-        const url = "http://167.99.255.241:5000/encrypt";
+        const url = (process.env.NODE_ENV === 'production' ? "https" : "http") + "://167.99.255.241:5000/encrypt";
         const data = {
             "recipient": publicKey,
             "data": message
