@@ -51,8 +51,8 @@ export const Decryptor = () => {
                         value={privateKey}
             />
             <br/>
-            <p> pk </p>
-            <InputGroup placeholder={"private key"}
+            <p> capsule </p>
+            <InputGroup placeholder={"capsule"}
                         onChange={(event: React.ChangeEvent<HTMLInputElement>) => setCapsule(event.target.value)}
                         value={capsule}
             />
